@@ -1,0 +1,88 @@
+<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- Root link at ground projection (no inertia), helps RViz TFs and avoids KDL root-inertia warning -->
+  <link name="base_footprint"/>
+  <joint name="base_footprint_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <!-- base_link is 0.19m above ground so wheel centers (z=-0.05) sit at 0.14m radius -->
+    <origin xyz="0 0 0.19" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Include component macros -->
+  <!-- Use relative includes to ensure xacro can find macros both in source and installed locations -->
+  <xacro:include filename="xacro/base.xacro"/>
+  <xacro:include filename="xacro/drive_wheels.xacro"/>
+  <xacro:include filename="xacro/caster_wheel.xacro"/>
+  <xacro:include filename="xacro/lidar.xacro"/>
+
+  <!-- Instantiate components -->
+  <xacro:base/>
+  <xacro:drive_wheels/>
+  <xacro:caster_wheel/>
+  <xacro:lidar/>
+
+  <!-- Gazebo plugins (originally in the URDF) -->
+  <gazebo>
+    <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
+      <right_joint>drivewhl_r_joint</right_joint>
+      <left_joint>drivewhl_l_joint</left_joint>
+      <wheel_separation>0.12</wheel_separation>
+      <wheel_radius>0.2</wheel_radius>
+      <max_linear_acceleration>10</max_linear_acceleration>
+      <odom_publish_frequency>10</odom_publish_frequency>
+      <topic>cmd_vel</topic>
+      <odom_topic>odom</odom_topic>
+      <tf_topic>/model/robot/tf</tf_topic>
+      <frame_id>odom</frame_id>
+      <child_frame_id>base_footprint</child_frame_id>
+    </plugin>
+    <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
+      <topic>joint_states</topic>
+      <joint_name>drivewhl_r_joint</joint_name>
+      <joint_name>drivewhl_l_joint</joint_name>
+    </plugin>
+  </gazebo>
+  <gazebo>
+    <plugin filename="libignition-gazebo-sensors-system" name="ignition::gazebo::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+  </gazebo>
+  <gazebo reference="lidar_link">
+    <sensor name="lidar_sensor" type="gpu_lidar">
+      <gz_frame_id>lidar_link</gz_frame_id>
+      <pose>0 0 0 0 0 0</pose>
+      <topic>scan</topic>
+      <update_rate>10</update_rate>
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+      <lidar>
+        <scan>
+          <horizontal>
+            <samples>360</samples>
+            <resolution>1.0</resolution>
+            <min_angle>-3.14159265359</min_angle>
+            <max_angle>3.14159265359</max_angle>
+          </horizontal>
+          <vertical>
+            <samples>1</samples>
+            <resolution>1.0</resolution>
+            <min_angle>0</min_angle>
+            <max_angle>0</max_angle>
+          </vertical>
+        </scan>
+        <range>
+          <min>0.08</min>
+          <max>10.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </lidar>
+      <always_on>1</always_on>
+      <visualize>1</visualize>
+    </sensor>
+  </gazebo>
+</robot>

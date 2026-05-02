@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+<xacro:macro name="drive_wheels" params="">
+  <link name="drivewhl_l_link">
+    <visual>
+      <origin rpy="1.5707963267949 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.06" radius="0.14"/>
+      </geometry>
+      <material name="White">
+        <color rgba="1.0 1.0 1.0 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="1.5707963267948966 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.06" radius="0.14"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="1.5707963267948966 0 0" xyz="0 0 0"/>
+      <mass value="110.5"/>
+      <inertia ixx="0.5746000000000001" ixy="0" ixz="0" iyy="0.5746000000000001" iyz="0" izz="1.0829000000000002"/>
+    </inertial>
+  </link>
+
+  <joint name="drivewhl_l_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="drivewhl_l_link"/>
+    <origin rpy="0 0 0" xyz="-0.221 0.23 -0.05"/>
+    <limit effort="30" lower="-3.1415" upper="3.1415" velocity="5.0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <link name="drivewhl_r_link">
+    <visual>
+      <origin rpy="1.5707963267949 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.06" radius="0.14"/>
+      </geometry>
+      <material name="White">
+        <color rgba="1.0 1.0 1.0 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="1.5707963267948966 0 0" xyz="0 0 0"/>
+      <geometry>
+        <cylinder length="0.06" radius="0.14"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="1.5707963267948966 0 0" xyz="0 0 0"/>
+      <mass value="110.5"/>
+      <inertia ixx="0.5746000000000001" ixy="0" ixz="0" iyy="0.5746000000000001" iyz="0" izz="1.0829000000000002"/>
+    </inertial>
+  </link>
+
+  <joint name="drivewhl_r_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="drivewhl_r_link"/>
+    <origin rpy="0 0 0" xyz="-0.221 -0.23 -0.05"/>
+    <limit effort="30" lower="-3.1415" upper="3.1415" velocity="5.0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+</xacro:macro>
+</robot>
