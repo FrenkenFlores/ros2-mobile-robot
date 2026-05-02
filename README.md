@@ -1,6 +1,7 @@
 # LIDAR robot setup
 
 This repo containes a ROS2 package that represents a mobile robot with LIDAR. It can be used for LIDAR projects. RViz and Gazebo are synced.
+
 ![](meta/gazebo.png)
 ![](meta/rviz.png)
 
