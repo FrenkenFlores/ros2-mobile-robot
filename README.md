@@ -6,7 +6,7 @@ This repo containes a ROS2 package that represents a mobile robot with LIDAR. It
 ![](meta/rviz.png)
 
 ## Demo
-![](meta/demo.gif)
+![](meta/demo_lidar_slam.gif)
 
 ## Build
 
