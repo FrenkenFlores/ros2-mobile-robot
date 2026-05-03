@@ -196,6 +196,7 @@ def generate_launch_description():
                 name='rviz2',
                 output='screen',
                 arguments=['-d', rviz_config_file],
+                parameters=[{'use_sim_time': use_sim_time}], 
             ),
             gz_sim_gui,
             gz_sim_headless,
